@@ -37,28 +37,22 @@ var downloadSvg;
 function convertPdfToSvg( pdf ){
 	console.log("pages cont", pdf.numPages);
 	//fecthes the first page and converts it to svg
-	pdf.getPage(1).then(function getPageHelloWorld(page) {
+	return pdf.getPage(1).then( getPageHelloWorld );
 
-			//sets the viewport
-			var scale = 1.0;
-			var viewport = page.getViewport(scale);
-
-			//downloads the pdf as a svg and displays is on document body
-			var returnString = displaySvg(page, viewport).then(function(svgString){
-					downloadSvg = function(){
-
-
-					saveAs(new Blob([svgString], {type:"image/svg;charset=utf-8"}), "oldPdf.svg");
-
-					}
-					//downloadSvg();
-					});
-
-			});
 
 
 }
 
+function getPageHelloWorld(page){
+	//sets the viewport
+	var scale = 1.0;
+	var viewport = page.getViewport(scale);
+
+	//downloads the pdf as a svg and displays is on document body
+	var stringPromise = displaySvg(page, viewport);
+	return stringPromise;
+
+};
 //appends the svg to globalContainer then returns string ready for download
 function displaySvg( page, viewport ){
 
